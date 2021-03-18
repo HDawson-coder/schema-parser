@@ -3,9 +3,11 @@ package edu.cnm.deepdive.parser.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Entity {
 
+  private static final String PLACEHOLDER = "${TABLE_NAME}";
   @Expose
   private String tableName;
 
@@ -73,7 +75,14 @@ public class Entity {
     this.foreignKeys = foreignKeys;
   }
 
-  public List<String> getDdlStatements() {
-  return null; //TODO Implement as appropriate.
+  public Stream<String> ddlStream() {
+    return Stream.concat(
+    Stream.of(sqlStatement),
+        indices
+            .stream()
+        .map(Index::getSqlStatement)
+    )
+        .map((statement) -> statement.replace(PLACEHOLDER, tableName));
   }
+
 }
