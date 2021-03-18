@@ -12,6 +12,10 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    extraLibs
+}
+
 dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -24,3 +28,22 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class' : 'edu.cnm.deepdive.parser.controller.Main'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.filter {
+            it.exists()
+        }.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
+
+
+
+
