@@ -10,7 +10,7 @@ public class Test {
 
 
   public static void main(String[] args) throws IOException {
-    try (InputStream input = Test.class.getClassLoader().getResourceAsStream("roulette.json")) {
+    try (InputStream input = Test.class.getClassLoader().getResourceAsStream("gardenbuddytwo.json")) {
       SchemaRepository repository = new SchemaRepository(input);
       repository
           .getSchema()
